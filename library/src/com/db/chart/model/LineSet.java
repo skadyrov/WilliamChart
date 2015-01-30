@@ -18,10 +18,9 @@ package com.db.chart.model;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-
 import com.db.chart.Tools;
 
-import java.lang.IllegalArgumentException;
+import java.util.ArrayList;
 
 /**
  * Data model containing a set of {@link Point} to be used by {@link LineChartView}.
@@ -149,7 +148,15 @@ public class LineSet extends ChartSet{
 			addPoint(labels[i], values[i], xIndices[i]);
 	}
 
+	public void addPoints(ArrayList<String> labels, ArrayList<Float> values, ArrayList<Integer> xIndices){
 
+		if(labels.size() != values.size())
+			Log.e(TAG, "Arrays size doesn't match.", new IllegalArgumentException());
+
+		int nEntries = labels.size();
+		for(int i = 0; i < nEntries; i++)
+			addPoint(labels.get(i), values.get(i), xIndices.get(i));
+	}
 
 	public boolean hasDots() {
 		return mHasDots;

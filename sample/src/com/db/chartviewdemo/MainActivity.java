@@ -1,28 +1,5 @@
 package com.db.chartviewdemo;
 
-import com.db.chart.Tools;
-import com.db.chart.listener.OnEntryClickListener;
-import com.db.chart.model.Bar;
-import com.db.chart.model.BarSet;
-import com.db.chart.model.LineSet;
-import com.db.chart.view.BarChartView;
-import com.db.chart.view.LineChartView;
-import com.db.chart.view.StackBarChartView;
-import com.db.chart.view.YController;
-import com.db.chart.view.XController;
-import com.db.chart.view.animation.Animation;
-import com.db.chart.view.animation.easing.BaseEasingMethod;
-import com.db.chart.view.animation.easing.bounce.BounceEaseOut;
-import com.db.chart.view.animation.easing.cubic.CubicEaseOut;
-import com.db.chart.view.animation.easing.elastic.ElasticEaseOut;
-import com.db.chart.view.animation.easing.quint.QuintEaseOut;
-import com.db.chart.view.animation.style.DashAnimation;
-import com.db.williamchartdemo.R;
-
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
 import android.animation.TimeInterpolator;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
@@ -30,6 +7,10 @@ import android.content.Intent;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +22,23 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import com.db.chart.Tools;
+import com.db.chart.listener.OnEntryClickListener;
+import com.db.chart.model.Bar;
+import com.db.chart.model.BarSet;
+import com.db.chart.model.LineSet;
+import com.db.chart.view.*;
+import com.db.chart.view.animation.Animation;
+import com.db.chart.view.animation.easing.BaseEasingMethod;
+import com.db.chart.view.animation.easing.bounce.BounceEaseOut;
+import com.db.chart.view.animation.easing.cubic.CubicEaseOut;
+import com.db.chart.view.animation.easing.elastic.ElasticEaseOut;
+import com.db.chart.view.animation.easing.quint.QuintEaseOut;
+import com.db.chart.view.animation.style.DashAnimation;
+import com.db.williamchartdemo.R;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -129,12 +127,19 @@ public class MainActivity extends ActionBarActivity {
 	/**
 	 * Line
 	 */
-	private final static int LINE_MAX = 10;
-	private final static int LINE_MIN = -10;
-	private final static String[] lineLabels = {"", "ANT", "GNU", "OWL", "APE", "JAY", ""};
-	private final static int[] xIndices = {0, 1, 4, 5, 6, 11, 13};
-	private final static float[][] lineValues = { {-5f, 6f, 2f, 9f, 0f, -2f, 5f},
-													{-9f, -2f, -4f, -3f, -7f, -5f, -3f}};
+	private final static int LINE_MAX = 150;
+	private final static int LINE_MIN = 90;
+
+	private final static ArrayList<String> lineLabels = new ArrayList<String>();
+//	private final static String[] lineLabels = {"", "01.01.15", "02.01.15", "03.01.15", "05.01.15", "06.01.15", "07.01.15", ""};
+
+	//private final static float[][] lineValues = { {130f, 130f, 136f, 132f,140f, 132f, 135f, 135f},
+	//												{89f, 89f, 82f, 84f, 87f, 85f, 83f, 83f}};
+
+	ArrayList<ArrayList<Float>> lineValues = new ArrayList<ArrayList<Float>>();
+	private final static ArrayList<Integer> xIndices = new ArrayList<Integer>();
+
+
 	private static LineChartView mLineChart;
 	private Paint mLineGridPaint;
 	private TextView mLineTooltip;
@@ -231,7 +236,48 @@ public class MainActivity extends ActionBarActivity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-		
+
+		lineLabels.add("");
+		lineLabels.add("212");
+		lineLabels.add("2121");
+		lineLabels.add("121");
+		lineLabels.add("452");
+		lineLabels.add("5656");
+		lineLabels.add("565");
+		lineLabels.add("");
+
+		xIndices.add(0);
+		xIndices.add(1);
+		xIndices.add(2);
+		xIndices.add(3);
+		xIndices.add(5);
+		xIndices.add(6);
+		xIndices.add(7);
+		xIndices.add(8);
+
+		ArrayList<Float> lineValues1 = new ArrayList<Float>();
+		lineValues1.add(120f);
+		lineValues1.add(120f);
+		lineValues1.add(130f);
+		lineValues1.add(140f);
+		lineValues1.add(130f);
+		lineValues1.add(110f);
+		lineValues1.add(120f);
+		lineValues1.add(120f);
+
+		ArrayList<Float> lineValues2 = new ArrayList<Float>();
+		lineValues2.add(100f);
+		lineValues2.add(100f);
+		lineValues2.add(100f);
+		lineValues2.add(100f);
+		lineValues2.add(100f);
+		lineValues2.add(90f);
+		lineValues2.add(80f);
+		lineValues2.add(95f);
+
+		lineValues.add(lineValues1);
+		lineValues.add(lineValues2);
+
         mNewInstance = false;
 		mCurrOverlapFactor = 1;
 		mCurrEasing = new QuintEaseOut();
@@ -287,7 +333,7 @@ public class MainActivity extends ActionBarActivity {
 		
 		LineSet dataSet = new LineSet();
 		// xIndex parameter is optional
-		dataSet.addPoints(lineLabels, lineValues[0], xIndices);
+		dataSet.addPoints(lineLabels, lineValues.get(0), xIndices);
 		dataSet.setDots(true)
 			.setDotsColor(this.getResources().getColor(R.color.line_bg))
 			.setDotsRadius(Tools.fromDpToPx(5))
@@ -295,11 +341,11 @@ public class MainActivity extends ActionBarActivity {
 			.setDotsStrokeColor(this.getResources().getColor(R.color.line))
 			.setLineColor(this.getResources().getColor(R.color.line))
 			.setLineThickness(Tools.fromDpToPx(3))
-			.beginAt(1).endAt(lineLabels.length - 1);
+			.beginAt(1).endAt(lineLabels.size() - 1);
 		mLineChart.addData(dataSet);
 		
 		dataSet = new LineSet();
-		dataSet.addPoints(lineLabels, lineValues[1], xIndices);
+		dataSet.addPoints(lineLabels, lineValues.get(1), xIndices);
 		dataSet.setLineColor(this.getResources().getColor(R.color.line))
 			.setLineThickness(Tools.fromDpToPx(3))
 			.setSmooth(true)
@@ -326,9 +372,14 @@ public class MainActivity extends ActionBarActivity {
 	private void showLineTooltip(int setIndex, int entryIndex, Rect rect){
 		
 		mLineTooltip = (TextView) getLayoutInflater().inflate(R.layout.circular_tooltip, null);
-		mLineTooltip.setText(Integer.toString((int)lineValues[setIndex][entryIndex]));
-		
-        LayoutParams layoutParams = new LayoutParams((int)Tools.fromDpToPx(35), (int)Tools.fromDpToPx(35));
+		//mLineTooltip.setText(Integer.toString((int)lineValues[setIndex][entryIndex]));
+		NumberFormat formatter = NumberFormat.getNumberInstance();
+		formatter.setMinimumFractionDigits(0);
+		formatter.setMaximumFractionDigits(0);
+		String output = formatter.format(lineValues.get(setIndex).get(entryIndex));
+		mLineTooltip.setText(output);
+
+		LayoutParams layoutParams = new LayoutParams((int)Tools.fromDpToPx(35), (int)Tools.fromDpToPx(35));
         layoutParams.leftMargin = rect.centerX() - layoutParams.width/2;
         layoutParams.topMargin = rect.centerY() - layoutParams.height/2;
         mLineTooltip.setLayoutParams(layoutParams);
@@ -379,9 +430,9 @@ public class MainActivity extends ActionBarActivity {
 	
 	private void updateValues(LineChartView chartView){
 		
-		chartView.updateValues(0, lineValues[1], xIndices);
+		chartView.updateValues(0, lineValues.get(1), xIndices);
 		//chartView.updateValues(0, lineValues[1]);
-		chartView.updateValues(1, lineValues[0], xIndices);
+		chartView.updateValues(1, lineValues.get(0), xIndices);
 		//chartView.updateValues(1, lineValues[0]);
 		chartView.notifyDataUpdate();
 	}

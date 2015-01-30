@@ -79,6 +79,24 @@ public class ChartSet {
 		return result;
 	}
 
+
+	/**
+	 * Updates set values.
+	 * @param newValues
+	 * @return float[] with X and Y coordinates of old values
+	 */
+	public float[][] updateValues(ArrayList<Float> newValues){
+
+		int nEntries = size();
+		float[][] result = new float[nEntries][2];
+		for(int i = 0; i < nEntries; i++){
+			result[i][0] = mEntries.get(i).getX();
+			result[i][1] = mEntries.get(i).getY();
+			setValue(i, newValues.get(i));
+		}
+		return result;
+	}
+
 	/**
 	 * Updates set values.
 	 * @param newValues
@@ -92,6 +110,22 @@ public class ChartSet {
 			result[i][0] = getEntry(i).getX();
 			result[i][1] = getEntry(i).getY();
 			setValue(i, newValues[i], xIndices[i]);
+		}
+		return result;
+	}
+
+	/**
+	 * Updates set values.
+	 * @param newValues
+	 * @return float[] with X and Y coordinates of old values
+	 */
+	public float[][] updateValues(ArrayList<Float> newValues, ArrayList<Integer> xIndices){
+
+		float[][] result = new float[size()][2];
+		for(int i = 0; i < size(); i++){
+			result[i][0] = getEntry(i).getX();
+			result[i][1] = getEntry(i).getY();
+			setValue(i, newValues.get(i), xIndices.get(i));
 		}
 		return result;
 	}
