@@ -1,6 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'android-maven'
 
+ext {
+    PUBLISH_GROUP_ID = 'com.db.chart.view'
+    PUBLISH_ARTIFACT_ID = 'williamchart'
+    PUBLISH_VERSION = '1.0.0'
+}
+
 android {
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
@@ -34,3 +40,5 @@ android {
         release.setRoot('build-types/release')
     }
 }
+
+apply from: 'android-release-aar.gradle'
