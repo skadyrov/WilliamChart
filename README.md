@@ -11,6 +11,7 @@ At the moment it provides:
 
 
 
+
 It has been tested in Android 2.2 and above.
 
 ![Demo2][1]
@@ -45,6 +46,14 @@ Then, to use the library in your project add the following to your `build.gradle
 dependencies {
     compile 'com.db.williamchart:library:1.7.0'
 }
+```
+
+### Gradle install to local Maven repository
+
+To install the library to the local Maven repository, run the following task in library folder:
+
+```
+$ gradle clean build generateRelease
 ```
 
 
